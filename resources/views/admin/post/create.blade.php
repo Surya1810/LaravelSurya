@@ -17,8 +17,8 @@
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.post.index') }}">Tag</a></li>
-            <li class="breadcrumb-item active">Tag Create</li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.post.index') }}">Post</a></li>
+            <li class="breadcrumb-item active">Post Create</li>
         </ol>
         </div>
     </div>
@@ -26,16 +26,13 @@
 </section>
 <section class="content">
     <div class="card">
-    <div class="card-body">
         <form action="{{ route('admin.post.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row clearfix">
                 <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="card-header">
-                            <h2>Title
-                                
-                            </h2>
+                            <h2>Title</h2>
                         </div>
                         <div class="card-body">
                                 <div class="form-group form-float">
@@ -88,7 +85,8 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <a  class="btn btn-danger m-t-15 waves-effect" href="{{ route('admin.post.index') }}">Back</a>
+                            <button type="submit" class="btn btn-primary m-t-15 waves-effect">Submit</button>
 
                         </div>
                     </div>
@@ -100,25 +98,21 @@
                         <div class="card-header">
                             <h2>Content</h2>
                         </div>
-                        <div class="body">
+                        <div class="card-body">
                         <textarea class="form-control" name="body" id="body"></textarea>
                         </div>
                     </div>
                 </div>
             </div>
-            <a  class="btn btn-danger waves-effect" href="{{ route('admin.category.index') }}">Back</a>
-            <button type="submit" class="btn btn-primary waves-effect">Submit</button>
+
         </form>
             <!-- ckeditor    -->
             <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
             <script>
                 CKEDITOR.replace( 'body' );
         </script>
-
     </div>
-    
-
-    </div>
+</section>
 @endsection
 
 @section ('scripts')

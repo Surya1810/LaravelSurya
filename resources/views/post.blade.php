@@ -38,17 +38,17 @@
                             <div class="post-info">
 
                                 <div class="left-area">
-                                    <a class="avatar" href="#"><img src="{{ asset('storage/profile/'.$post->user->image) }}" alt="Profile Image"></a>
+                                    <a class="avatar" href="{{ route('author.profile',$post->user->username) }}"><img src="{{ asset('storage/profile/'.$post->user->image) }}" alt="Profile Image"></a>
                                 </div>
 
                                 <div class="middle-area">
-                                    <a class="name" href="#"><b>{{ $post->user->name }}</b></a>
+                                    <a class="name" href="{{ route('author.profile',$post->user->username) }}"><b>{{ $post->user->name }}</b></a>
                                     <h6 class="date">on {{ $post->created_at->diffForHumans() }}</h6>
                                 </div>
 
                             </div><!-- post-info -->
 
-                            <h3 class="title"><a href="#"><b>{{ $post->title }}</b></a></h3>
+                            <h3 class="title"><a><b>{{ $post->title }}</b></a></h3>
 
                             <div class="para">
                                 {!! html_entity_decode($post->body) !!}
@@ -135,7 +135,7 @@
 
                                 <div class="blog-image"><img src="{{asset('storage/post/'.$randompost->image) }}" alt="{{ $randompost->title }}"></div>
 
-                                <a class="avatar" href="#"><img src="{{asset('storage/profile/'.$randompost->user->image) }}" alt="Profile Image"></a>
+                                <a class="avatar" href="{{ $post->user->about }}"><img src="{{asset('storage/profile/'.$randompost->user->image) }}" alt="Profile Image"></a>
 
                                 <div class="blog-info">
 

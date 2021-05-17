@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
-use App\Notifications\AuthorPostApproved;
-use App\Notifications\NewPostNotify;
+// use App\Notifications\AuthorPostApproved;
+// use App\Notifications\NewPostNotify;
 use App\Models\Subscriber;
 use App\Models\Tag;
 use App\Models\Post;
@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
+// use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -96,15 +96,15 @@ class PostController extends Controller
         $post->categories()->attach($request->categories);
         $post->tags()->attach($request->tags);
 
-        $subscribers = Subscriber::all();
-        foreach ($subscribers as $subscriber)
-        {
-            Notification::route('mail',$subscriber->email)
-                ->notify(new NewPostNotify($post));
-        }
+        // $subscribers = Subscriber::all();
+        // foreach ($subscribers as $subscriber)
+        // {
+        //     Notification::route('mail',$subscriber->email)
+        //         ->notify(new NewPostNotify($post));
+        // }
 
         Alert::success('Success','Post Successfully Saved !');
-        return redirect()->route('post.index');
+        return redirect()->route('admin.post.index');
     }
 
     /**
@@ -113,8 +113,13 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
-    {
+    public function show($id)
+    {        
+        // Alert::info('Upsss', 'Sorry, this page under maintenance');
+        // return redirect()->back();
+        $post = Post::find($id);
+
+        // dd($post);
         return view('admin.post.show',compact('post'));
     }
 
@@ -124,10 +129,14 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
+        $post = Post::find($id);
         $categories = Category::all();
         $tags = Tag::all();
+        // Alert::info('Upsss', 'Sorry, this page under maintenance');
+        // return redirect()->back();
+        // dd($post);
         return view('admin.post.edit',compact('post','categories','tags'));
     }
 
@@ -138,8 +147,9 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
+        $post = Post::find($id);
         $this->validate($request,[
             'title' => 'required',
             'image' => 'image',
@@ -164,7 +174,7 @@ class PostController extends Controller
             {
                 Storage::disk('public')->delete('post/'.$post->image);
             }
-            $postImage = Image::make($image)->resize(1600,1066)->save();
+            $postImage = Image::make($image)->resize(1600,1066)->stream();
             Storage::disk('public')->put('post/'.$imageName,$postImage);
 
         } else {
@@ -188,8 +198,8 @@ class PostController extends Controller
         $post->categories()->sync($request->categories);
         $post->tags()->sync($request->tags);
 
-        Alert::success('Success','Post Successfully Updated');
-        return redirect()->route('post.index');
+        Alert::warning('Updated','Post Successfully Updated');
+        return redirect()->route('admin.post.index');
     }
 
     public function pending()
@@ -198,25 +208,27 @@ class PostController extends Controller
         return view('admin.post.pending',compact('posts'));
     }
 
-    public function approval($id)
+    public function approval(Post $post, $id)
     {
-        $post = Post::find($id);
+        // $post = Post::find($id);
+        $post = Post::findorfail($id);
+        
         if ($post->is_approved == false)
         {
             $post->is_approved = true;
             $post->save();
-            $post->user->notify(new AuthorPostApproved($post));
+            // $post->user->notify(new AuthorPostApproved($post));
 
-            $subscribers = Subscriber::all();
-            foreach ($subscribers as $subscriber)
-            {
-                Notification::route('mail',$subscriber->email)
-                    ->notify(new NewPostNotify($post));
-            }
+        // $subscribers = Subscriber::all();
+        // foreach ($subscribers as $subscriber)
+        // {
+        //     Notification::route('mail',$subscriber->email)
+        //         ->notify(new NewPostNotify($post));
+        // }
 
-            Alert::success('Success','Post Successfully Approved !');
+            Alert::success('Approved','Post Successfully Approved !');
         } else {
-            Alert::info('Info','This Post is already approved');
+            Alert::info('Upsss','This Post is already approved');
         }
         return redirect()->back();
     }
@@ -227,22 +239,50 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post, $id)
+    {
+        $post = Post::findorfail($id);
+        $post->delete();
+        
+        Alert::error('Deleted','Post Successfully Deleted !');
+        // return redirect()->route('admin.post.trashed');
+        return redirect()->back();
+    }
+
+    public function trashed()
+    {
+        $posts = Post::onlyTrashed()->get();
+
+        return view ('admin.post.trashed',compact('posts'));
+    }
+
+    public function restore($id)
+    {
+        $post = Post::withTrashed()->where('id', $id)->first();
+        $post->restore();
+
+        Alert::success('Restored','Post Successfully Restored !');
+        return redirect()->route('admin.post.index');
+    }
+
+    public function kill(Post $post, $id)
     {
         if (Storage::disk('public')->exists('post/'.$post->image))
         {
             Storage::disk('public')->delete('post/'.$post->image);
         }
+        $post = Post::withTrashed()->where('id', $id)->first();
         $post->categories()->detach();
         $post->tags()->detach();
-        $post->delete();
-        Toastr::success('Post Successfully Deleted :)','Success');
+        $post->forceDelete();
+
+        Alert::error('Deleted','Post Successfully Deleted !');
         return redirect()->back();
     }
 
-    public function post()
-    {
-        $posts = Post::latest()->approved()->published()->paginate(6);
-        return view('posts',compact('posts'));
-    }
+    // public function post()
+    // {
+    //     $posts = Post::latest()->approved()->published()->paginate(6);
+    //     return view('posts',compact('posts'));
+    // }
 }

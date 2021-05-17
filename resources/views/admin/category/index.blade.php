@@ -31,14 +31,14 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-        @role('super admin')
+        @can ('Content.category')
         <div style="padding-bottom: 20px">
         <a class="btn btn-primary waves-effect" href="{{ route('admin.category.create') }}">
             <i class="fa fa-plus-square"></i>
             <span>Add New Category</span>
         </a>
         </div>
-        @endrole
+        @endcan
         <div class="single-table">
             <div class="table-responsive">
                 <table class="table table-hover text-center">
@@ -48,9 +48,9 @@
                         <th>Post Count</th>
                         <th>Created At</th>
                         <th>Updated At</th>
-                        @role('super admin')
+                        @can ('Content.category')
                         <th>Action</th>
-                        @endrole
+                        @endcan
 
                     </tr>
                     </thead>
@@ -61,7 +61,7 @@
                                 <td>{{ $category->posts->count() }}</td>
                                 <td>{{ $category->created_at }}</td>
                                 <td>{{ $category->updated_at }}</td>
-                                @role('super admin')
+                                @can ('Content.category')
                                 
                                 <td class="text-center">
                                     <a href="{{ route('admin.category.edit',$category->id) }}" class="btn btn-warning">
@@ -79,7 +79,7 @@
                                         @method('DELETE')
                                     </form>
                                 </td>
-                                @endrole
+                                @endcan
 
                             </tr>
                         @endforeach

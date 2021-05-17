@@ -19,42 +19,9 @@ class UserController extends Controller
     {
         $data_users = User::all();
         $roles =Role::all();
+        
         return view('admin.user.index',compact('data_users','roles'));
     }
-    
-    // public function roles(Request $request)
-    // {
-    //     $roles = \Spatie\Permission\Models\Role::all();
-    //     return view('crud.index',['roles' => $roles]);
-    // }
-
-    public function create(Request $request)
-    {
-        return view('admin.user.create');
-    }
-
-    public function store(array $data)
-    {
-        $this->validate($request,[
-            'name' => 'required',
-            'username' => 'required|unique:users|max:255',
-            'phone' => 'required',
-            'email' => 'required|email',
-            'image' => 'required|image',
-        ]);
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->phone = $request->phone;
-        $user->email = $request->email;
-        $user->image = $imageName;
-        $user->about = $request->about;
-        $user->save();
-        $user->assignRole('guest');
-
-        Alert::success('Success', 'User Created Successfully !');
-        return redirect()->route('admin.user.index');
-    }
-
 
     public function edit($id)
     {
@@ -67,8 +34,19 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
+        $roles_name = $user->getRoleNames();
 
-        $user -> update($request->all());
+            $data = $request->all();
+            // dd($data);
+            $role = Role::findById($data['role']);
+            // dd($role);
+
+            if ($roles_name == true) {
+                $user->removeRole($roles_name[0]);
+                $user -> update($request->all());
+            }
+            $user->assignRole($role);
+            
 
         Alert::warning('Updated','User Updated Successfully !');
         return redirect()->route('admin.user.index');

@@ -11,14 +11,21 @@
         "php": "^7.3",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
+        "google/recaptcha": "^1.2",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.5",
         "laravel/framework": "^8.0",
         "laravel/helpers": "^1.4",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.2",
+        "mailchimp/marketing": "^3.0",
+        "nexmo/client": "^2.4",
+        "nexmo/laravel": "^2.4",
         "realrashid/sweet-alert": "^3.2",
-        "spatie/laravel-permission": "^3.18"
+        "spatie/laravel-newsletter": "^4.9",
+        "spatie/laravel-permission": "^3.18",
+        "spatie/laravel-sitemap": "^5.9",
+        "vonage/client": "^2.4"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

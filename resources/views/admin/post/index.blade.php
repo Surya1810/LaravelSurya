@@ -22,18 +22,19 @@
 <section class="content">
     <div class="card">
         <div class="card-header">
-        <h3 class="card-title">Post's {{ $posts->count() }}</h3>
+        <h3 class="card-title">All Post's {{ $posts->count() }}</h3>
         </div>
         <!-- /.card-header -->
                 <div class="card-body">
-            @role('super admin')
+                    @can ('Content.create')
+
                 <div style="padding-bottom: 20px">
                     <a class="btn btn-primary waves-effect" href="{{ route('admin.post.create') }}">
                         <i class="fa fa-plus-square"></i>
                         <span>Add New Post</span>
                     </a>
                 </div>
-            @endrole
+                @endcan
                     <div class="single-table">
                         <div class="table-responsive">
                             <table class="table table-hover text-center">
@@ -46,9 +47,7 @@
                                     <th>Is Approved</th>
                                     <th>Status</th>
                                     <th>Created At</th>
-                                    @role ('super admin')
                                     <th>Action</th>
-                                    @endrole
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -74,23 +73,25 @@
                                             </td>
                                             <td>{{ $post->created_at }}</td>
                                             {{--<td>{{ $post->updated_at }}</td>--}}
-                                    @role ('super admin')
                                             <td class="text-center">
                                                 <a href="{{ route('admin.post.show',$post->id) }}" class="btn btn-info waves-effect">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
+                                                @can ('Content.edit')
                                                 <a href="{{ route('admin.post.edit',$post->id) }}" class="btn btn-warning waves-effect">
                                                     <i class="fa fa-pencil-alt"></i>
                                                 </a>
-                                                <a href="{{ route('admin.post.destroy',$post->id) }}"class="btn btn-danger waves-effect">
+                                                @endcan
+                                                @can ('Content.delete')
+                                                <button class="btn btn-danger waves-effect" type="button" onclick="deletePost({{ $post->id }})">
                                                     <i class="fa fa-trash"></i>
-                                                </a>
+                                                </button>
                                                 <form id="delete-form-{{ $post->id }}" action="{{ route('admin.post.destroy',$post->id) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
+                                                @endcan
                                             </td>
-                                            @endrole
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -109,7 +110,7 @@
     function deletePost(id) {
         swal({
             title: 'Are you sure ?',
-            text: "Once deleted, you will not be able to recover this tag !",
+            text: "this post will go to trash if deleted, you can check there!",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

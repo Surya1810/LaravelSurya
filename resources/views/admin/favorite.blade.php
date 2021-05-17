@@ -26,7 +26,7 @@
 <section class="content">
     <div class="card">
         <div class="card-header">
-        <h3 class="card-title">Favorite's {{ Auth::user() ->favorite_posts()->count() }}</h3>
+        <h3 class="card-title">Favorite's {{ $posts->count() }}</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -40,10 +40,11 @@
                                     <th>Author</th>
                                     <th>Favorite</th>
                                     {{--<th><i class="material-icons">comment</i><</th>--}}
-                                    <th>View</th>
-                                    @role('super admin')
+                                    <th>Views</th>
+        @can ('Favorite')
+                                    
                                     <th>Action</th>
-                                    @endrole
+                                    @endcan
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -54,10 +55,10 @@
                                             <td>{{ $post->user->name }}</td>
                                             <td>{{ $post->favorite_to_users->count() }}</td>
                                             <td>{{ $post->view_count }}</td>
-                                            @role('super admin')
+                                            @can ('Favorite')
                                             <td class="text-center">
 
-                                                <a href="{{ route('admin.post.show',$post->id) }}" class="btn btn-info waves-effect">
+                                                <a href="{{ route('post.details',$post->slug) }}" class="btn btn-info waves-effect">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
 
@@ -68,7 +69,7 @@
                                                     @csrf
                                                 </form>
                                             </td>
-                                            @endrole
+                                            @endcan
                                         </tr>
                                     @endforeach
                                 </tbody>

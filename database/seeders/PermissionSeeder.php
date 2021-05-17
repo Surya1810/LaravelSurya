@@ -14,29 +14,11 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        //dashboard Permission
-        Permission::create([
-            'name' => 'Dashboard.view',
-            'guard_name' => 'web',
-            'group_name' => 'Dashboard'
-        ]);
 
         
         //User Permission
         Permission::create([
-            'name' => 'User.view',
-            'guard_name' => 'web',
-            'group_name' => 'User'
-        ]);
-
-        Permission::create([
             'name' => 'User.edit',
-            'guard_name' => 'web',
-            'group_name' => 'User'
-        ]);
-
-        Permission::create([
-            'name' => 'User.create',
             'guard_name' => 'web',
             'group_name' => 'User'
         ]);
@@ -48,8 +30,9 @@ class PermissionSeeder extends Seeder
         ]);
 
         //Role & Permission
+
         Permission::create([
-            'name' => 'Role.Permission.view',
+            'name' => 'Role',
             'guard_name' => 'web',
             'group_name' => 'Role & Permission'
         ]);
@@ -73,7 +56,7 @@ class PermissionSeeder extends Seeder
         ]);
 
         Permission::create([
-            'name' => 'Role.list',
+            'name' => 'Permission',
             'guard_name' => 'web',
             'group_name' => 'Role & Permission'
         ]);
@@ -95,18 +78,8 @@ class PermissionSeeder extends Seeder
             'guard_name' => 'web',
             'group_name' => 'Role & Permission'
         ]);
-        Permission::create([
-            'name' => 'Permission.list',
-            'guard_name' => 'web',
-            'group_name' => 'Role & Permission'
-        ]);
 
         //Content
-        Permission::create([
-            'name' => 'Content.view',
-            'guard_name' => 'web',
-            'group_name' => 'Content'
-        ]);
 
         Permission::create([
             'name' => 'Content.create',
@@ -115,7 +88,13 @@ class PermissionSeeder extends Seeder
         ]);
 
         Permission::create([
-            'name' => 'Content.trashed',
+            'name' => 'Content.kill',
+            'guard_name' => 'web',
+            'group_name' => 'Content'
+        ]);
+
+        Permission::create([
+            'name' => 'Content.restore',
             'guard_name' => 'web',
             'group_name' => 'Content'
         ]);
@@ -133,12 +112,6 @@ class PermissionSeeder extends Seeder
         ]);
 
         Permission::create([
-            'name' => 'Content.restore',
-            'guard_name' => 'web',
-            'group_name' => 'Content'
-        ]);
-
-        Permission::create([
             'name' => 'Content.category',
             'guard_name' => 'web',
             'group_name' => 'Content'
@@ -151,35 +124,35 @@ class PermissionSeeder extends Seeder
         ]);
 
         Permission::create([
-            'name' => 'Content.post',
+            'name' => 'Content.approve',
             'guard_name' => 'web',
             'group_name' => 'Content'
         ]);
 
         Permission::create([
-            'name' => 'Comment.view',
+            'name' => 'Comment',
             'guard_name' => 'web',
             'group_name' => 'Comment'
         ]);
 
         Permission::create([
-            'name' => 'Favorite.view',
+            'name' => 'Favorite',
             'guard_name' => 'web',
-            'group_name' => 'Comment'
+            'group_name' => 'Favorite'
         ]);
 
         Permission::create([
-            'name' => 'Subs.view',
+            'name' => 'Subscriber',
             'guard_name' => 'web',
             'group_name' => 'Subscribers'
         ]);
 
-        //File Manager
-        Permission::create([
-            'name' => 'FileManager.view',
-            'guard_name' => 'web',
-            'group_name' => 'FileManager'
-        ]);
+        // //File Manager
+        // Permission::create([
+        //     'name' => 'FileManager.view',
+        //     'guard_name' => 'web',
+        //     'group_name' => 'FileManager'
+        // ]);
         
     }
 }

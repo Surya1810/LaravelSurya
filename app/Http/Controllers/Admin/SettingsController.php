@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,21 +19,25 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        return view('admin.settings');
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+// dd($roles);
+        return view('admin.settings',compact('user','roles'));
     }
 
     public function updateProfile(Request $request)
     {
         $this->validate($request,[
             'name' => 'required',
-            'username' => 'required|unique:users|max:255',
-            'phone' => 'required',
             'email' => 'required|email',
+            'username' => 'required',
+            'phone' => 'required',
             'image' => 'required|image',
         ]);
         $image = $request->file('image');
-        $slug = str_slug($request->name);
+        $slug = str_slug(Auth::user()->name);
         $user = User::findOrFail(Auth::id());
+        // dd($image);
         if (isset($image))
         {
             $currentDate = Carbon::now()->toDateString();
@@ -60,6 +63,9 @@ class SettingsController extends Controller
         $user->image = $imageName;
         $user->about = $request->about;
         $user->save();
+        // $user = User::findOrFail(Auth::id());
+        // $user->update($request->all());
+        
         Alert::success('Success','Your Profile Successfully Updated :)');
         return redirect()->back();
     }
@@ -81,7 +87,7 @@ class SettingsController extends Controller
                 $user->save();
                 Alert::success('Password Successfully Changed','Success');
                 Auth::logout();
-                return redirect()->back();
+                return redirect('/login');
             } else {
                 Alert::error('Error','New password cannot be the same as old password');
                 return redirect()->back();
@@ -92,4 +98,40 @@ class SettingsController extends Controller
         }
 
     }
+    
+    public function profileimage(Request $request)
+    {
+        $this->validate($request,[
+            'image' => 'required',
+        ]);
+
+        $image = $request->file('image');
+        $slug = str_slug($request->name);
+        $user = User::findOrFail(Auth::id());
+        if (isset($image))
+        {
+            $currentDate = Carbon::now()->toDateString();
+            $imageName = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+            if (!Storage::disk('public')->exists('profile'))
+            {
+            Storage::disk('public')->makeDirectory('profile');
+            }
+//            Delete old image form profile folder
+            if (Storage::disk('public')->exists('profile/'.$user->image))
+            {
+                Storage::disk('public')->delete('profile/'.$user->image);
+            }
+            $profile = Image::make($image)->resize(500,500)->stream();
+            Storage::disk('public')->put('profile/'.$imageName,$profile);
+        } else {
+            $imageName = $user->image;
+        }
+
+        $user->image = $imageName;
+        $user->save();
+
+        Alert::success('Success','Your Profile Successfully Updated :)');
+        return redirect()->back();
+    }
+
 }

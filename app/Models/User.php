@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, HasRoles;
+    use HasRoles, Notifiable ;
     // protected $table = 'model_has_role';
     /**
      * The attributes that are mass assignable.
@@ -23,6 +23,8 @@ class User extends Authenticatable
         'username',
         'phone',
         'email',
+        'image',
+        'about',
         'password',
     ];
 
@@ -50,21 +52,15 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Comment');
     }
 
-    public function role()
-    {
-        return $this->belongsTo('Spatie\Permission\Models\Role');
-    }
-    // public function roleid()
+    // public function role()
     // {
-    //     $roleid = DB::table('model_has_role')
-    //     ->get(role_id);
-    //     return $roleid;
+    //     return $this->belongsTo('Spatie\Permission\Models\Role');
     // }
 
-    // public function scopeAuthors($query)
-    // {
-    //     return $query->where('role_id',2);
-    // }
+    public function scopeAuthors($query)
+    {
+        return $query->where()->role('operator');
+    }
 
     protected $casts = [
         'email_verified_at' => 'datetime',

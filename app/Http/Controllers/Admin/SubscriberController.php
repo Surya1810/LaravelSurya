@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Subscriber;
-use Brian2694\Toastr\Facades\Toastr;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -19,7 +19,7 @@ class SubscriberController extends Controller
     {
         $subscriber = Subscriber::findOrFail($subscriber);
         $subscriber->delete();
-        Toastr::success('Subscriber Successfully Deleted :)','Success');
+        Alert::success('Subscriber Successfully Deleted :)','Success');
         return redirect()->back();
     }
 }

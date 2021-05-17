@@ -32,23 +32,23 @@ Permission
                         <div class="table-responsive">
                             <table class="table table-hover text-center">
                                 <thead class="text-uppercase">
-                                    @role('super admin')
+                                    @can ('Permission.create')
                                     <div style="padding-bottom: 20px">
                                         <a class="btn btn-primary waves-effect" href="{{ route('admin.permission.create') }}" >
                                             <i class="fa fa-plus-square"></i>
                                             <span>Add New Permission</span>
                                         </a>
                                     </div>
-                                    @endrole
+                                    @endcan
                                     <tr>
                                         <th>NO</th>
                                         <th>PERMISSIONS</th>
                                         <th>GROUP NAME</th>
                                         <th>GUARD NAME</th>
                                         <th>DATE CREATED</th>
-                                        @role ('super admin')
+                                        @can ('Permission')
                                         <th>ACTION</th>
-                                        @endrole
+                                        @endcan
                                         
 
                                     </tr>
@@ -61,11 +61,14 @@ Permission
                                         <td>{{$permission->group_name}}</td>
                                         <td>{{$permission->guard_name}}</td>
                                         <td>{{$permission->created_at}}</td>
-                                        @role ('super admin')
+                                        @can ('Permission.create')
                                         <td>
+                                    @can ('Permission.edit')
                                             <a href="{{ route('admin.permission.edit',$permission->id) }}" class="btn btn-warning waves-effect">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
+                                            @endcan
+                                    @can ('Permission.delete')
                                             <button class="btn btn-danger waves-effect" type="button" onclick="deletePermission({{ $permission->id }})">
                                                 <i class="fa fa-trash"></i>
                                             </button>
@@ -73,8 +76,9 @@ Permission
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
+                                            @endcan
                                         </td>
-                                        @endrole
+                                        @endcan
                                         
                                     </tr>
                                     @endforeach

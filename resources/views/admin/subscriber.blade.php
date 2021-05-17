@@ -35,9 +35,9 @@
                                     <th>Email</th>
                                     <th>Created At</th>
                                     <th>Updated At</th>
-                                    @role ('super admin')
+                                    @can ('Subscriber')
                                     <th>Action</th>
-                                    @endrole
+                                    @endcan
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -47,8 +47,8 @@
                                             <td>{{ $subscriber->email }}</td>
                                             <td>{{ $subscriber->created_at }}</td>
                                             <td>{{ $subscriber->updated_at }}</td>
+                                            @can ('Subscriber')
                                             <td class="text-center">
-                                                @role ('super admin')
                                                 <button class="btn btn-danger waves-effect" type="button" onclick="deleteSubscriber({{ $subscriber->id }})">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
@@ -56,8 +56,8 @@
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
-                                                @endrole
                                             </td>
+                                            @endcan
                                         </tr>
                                     @endforeach
                                 </tbody>

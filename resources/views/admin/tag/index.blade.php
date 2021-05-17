@@ -31,14 +31,16 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            @role('super admin')
+            @can ('Content.tags')
+
         <div style="padding-bottom: 20px">
             <a class="btn btn-primary waves-effect" href="{{ route('admin.tag.create') }}" >
                 <i class="fa fa-plus-square"></i>
                 <span>Add New Tag</span>
             </a>
         </div>
-            @endrole
+            @endcan
+
             <div class="single-table">
                 <div class="table-responsive">
                     <table class="table table-hover text-center">
@@ -58,7 +60,8 @@
                                     <td>{{ $tag->posts->count() }}</td>
                                     <td>{{ $tag->created_at }}</td>
                                     <td>{{ $tag->updated_at }}</td>
-                                    @role('super admin')
+                                    @can ('Content.tags')
+
                                     <td class="text-center">
                                         <a href="{{ route('admin.tag.edit',$tag->id) }}" class="btn btn-warning waves-effect">
                                             <i class="fa fa-pencil-alt"></i>
@@ -72,7 +75,8 @@
                                             @method('DELETE')
                                         </form>
                                     </td>
-                                    @endrole
+                                    @endcan
+
                                 </tr>
                             @endforeach
                         </tbody>

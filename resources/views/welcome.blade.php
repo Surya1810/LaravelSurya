@@ -69,7 +69,7 @@
 
                                         <li>
                                             @guest
-                                                <a href="javascript:void(0);" onclick="toastr.info('To add favorite list. You need to login first.','Info',{
+                                                <a href="javascript:void(0);" onclick="alert.info('To add favorite list. You need to login first.','Info',{
                                                     closeButton: true,
                                                     progressBar: true,
                                                 })"><i class="ion-heart"></i>{{ $post->favorite_to_users->count() }}</a>

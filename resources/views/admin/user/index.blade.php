@@ -22,18 +22,10 @@
 <section class="content">
     <div class="card">
         <div class="card-header">
-        <h3 class="card-title">user's  {{ $data_users->count() }}</h3>
+        <h3 class="card-title">User's  {{ $data_users->count() }}</h3>
         </div>
         <!-- /.card-header -->
                 <div class="card-body">
-                    @role('super admin')
-                    <div style="padding-bottom: 20px">
-                        <a class="btn btn-primary waves-effect" href="{{ route('admin.user.create') }}" >
-                            <i class="fa fa-plus-square"></i>
-                            <span>Add New User</span>
-                        </a>
-                    </div>
-                        @endrole
                     <div class="single-table">
                         <div class="table-responsive">
                             <table class="table table-hover text-center">
@@ -63,10 +55,12 @@
                             @endforeach
                             @role('super admin')
                             <td class="text-center">
+                                @can ('User.edit')
                                 <a href="{{ route('admin.user.edit',$user->id) }}" class="btn btn-warning waves-effect">
                                     <i class="fa fa-pencil-alt"></i>
                                 </a>
-
+                                @endcan
+                                @can ('User.delete')
                                 <button class="btn btn-danger waves-effect" type="button" onclick="deleteUser({{ $user->id }})">
                                     <i class="fa fa-trash"></i>
                                 </button>
@@ -74,6 +68,8 @@
                                     @csrf
                                     @method('DELETE')
                                 </form>
+                                @endcan
+
                             </td>
                             @endrole
                         </tr>

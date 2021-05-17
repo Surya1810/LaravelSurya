@@ -27,74 +27,114 @@
 <section class="content">
     <div class="card">
         <form action="{{ route('admin.post.update',$post->id) }}" method="POST" enctype="multipart/form-data">
-            <div class="card-body">
-                        @csrf
-                        @method('PUT')
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" class="form-control" name="title" value="{{ $post->title }}">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="image">Featured Image</label>
-                        <br>
-                        <input type="file" name="image">
-                    </div>
+            @csrf
+            @method('PUT')
+            <div class="row clearfix">
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Title</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="title" class="form-control" name="title" value="{{ $post->title }}">
+                                    <label class="form-label">Post Title</label>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <input type="checkbox" id="publish" class="filled-in" name="status" value="1" {{ $post->status == true ? 'checked' : '' }}>
-                        <label for="publish">Publish</label>
+                            <div class="form-group">
+                                <label for="image">Featured Image</label>
+                                <input type="file" name="image">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="checkbox" id="publish" class="filled-in" name="status" value="1" {{ $post->status == true ? 'checked' : '' }}>
+                                <label for="publish">Publish</label>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        <div class="form-line {{ $errors->has('categories') ? 'focused error' : '' }}">
-                            <label for="category">Select Category</label>
-                            <select name="categories[]" id="category" class="form-control show-tick" data-live-search="true">
-                                @foreach($categories as $category)
-                                    <option
-                                        @foreach($post->categories as $postCategory)
-                                            {{ $postCategory->id == $category->id ? 'selected' : '' }}
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>
+                                Categories and Tags
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group form-float">
+                                <div class="form-line {{ $errors->has('categories') ? 'focused error' : '' }}">
+                                    <label for="category">Select Category</label>
+                                    <select name="categories[]" id="category" class="categories form-control show-tick" data-live-search="true">
+                                        @foreach($categories as $category)
+                                            <option
+                                                @foreach($post->categories as $postCategory)
+                                                    {{ $postCategory->id == $category->id ? 'selected' : '' }}
+                                                @endforeach
+                                                value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
-                                        value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-line {{ $errors->has('tags') ? 'focused error' : '' }}">
-                            <label for="tag">Select Tags</label>
-                            <select name="tags[]" id="tag" class="form-control show-tick" data-live-search="true" multiple>
-                                @foreach($tags as $tag)
-                                    <option
-                                            @foreach($post->tags as $postTag)
-                                                {{ $postTag->id == $tag->id ? 'selected' :'' }}
-                                            @endforeach
-                                            value="{{ $tag->id }}">{{ $tag->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Content</label>
-                        <textarea class="form-control" name="body" id="body">{{ $post->body }}</textarea>
-                    </div>
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <a  class="btn btn-danger m-t-15 waves-effect" href="{{ route('admin.category.index') }}">BACK</a>
-                        <button type="submit" class="btn btn-primary m-t-15 waves-effect">SUBMIT</button>
+                            <div class="form-group form-float">
+                                <div class="form-line {{ $errors->has('tags') ? 'focused error' : '' }}">
+                                    <label for="tag">Select Tags</label>
+                                    <select name="tags[]" id="tag" class="tags form-control show-tick" data-live-search="true" multiple>
+                                        @foreach($tags as $tag)
+                                            <option
+                                                    @foreach($post->tags as $postTag)
+                                                        {{ $postTag->id == $tag->id ? 'selected' :'' }}
+                                                    @endforeach
+                                                    value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <a  class="btn btn-danger m-t-15 waves-effect" href="{{ route('admin.category.index') }}">back</a>
+                            <button type="submit" class="btn btn-primary m-t-15 waves-effect">Submit</button>
+                        </div>
                     </div>
-				</div>
-                    </form>
-                        <!-- ckeditor    -->
-                    <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
-                    <script>
-                        CKEDITOR.replace( 'body' );
-                </script>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Content</h2>
+                        </div>
+                        <div class="card-body">
+                            <textarea class="form-control" id="body" name="body">{{ $post->body }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+                <!-- ckeditor    -->
+            <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
+            <script>
+                CKEDITOR.replace( 'body' );
+        </script>
     </div>
 </section>
 @endsection
 
-@push('js')
-    <!-- Select Plugin Js -->
-    <script src="{{ asset('assets/backend/plugins/bootstrap-select/js/bootstrap-select.js') }}"></script>
-@endpush
+@section ('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script>$(document).ready(function() {
+    $('.tags').select2();
+});</script>
+
+<script>
+    $(".categories").select2({
+    placeholder: "Nothing Selected",
+    allowClear: true
+});
+</script>
+@endsection
+
+@section ('style')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+@endsection

@@ -3,7 +3,7 @@
 @section('title','Settings')
 
 @section('content')
-<section class="content">
+<section class="content" style="padding-top: 15px">
     <div class="container-fluid">
         <div class="row">
         <div class="col-md-3">
@@ -12,26 +12,20 @@
             <div class="card card-primary card-outline">
             <div class="card-body box-profile">
                 <div class="text-center">
-                <img class="profile-user-img img-fluid img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+                <img class="profile-user-img img-fluid img-circle" src="{{asset('storage/profile/'.Auth::user()->image) }}" alt="User profile picture">
                 </div>
 
                 <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
 
-                <p class="text-muted text-center">(harusnya role)</p>
+                <p class="text-muted text-center">{{ Auth::user()->username }}</p>
 
-                {{-- <ul class="list-group list-group-unbordered mb-3">
+                <ul class="list-group list-group-unbordered mb-3">
                 <li class="list-group-item">
-                    <b>Followers</b> <a class="float-right">1,322</a>
-                </li>
-                <li class="list-group-item">
-                    <b>Following</b> <a class="float-right">543</a>
-                </li>
-                <li class="list-group-item">
-                    <b>Friends</b> <a class="float-right">13,287</a>
+                    <b>My Role</b> <a class="float-right">{{$roles}}</a>
                 </li>
                 </ul>
 
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> --}}
+                {{-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> --}}
             </div>
             <!-- /.card-body -->
             </div>
@@ -44,33 +38,31 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                {{-- <strong><i class="fas fa-book mr-1"></i> Education</strong>
+                <strong><i class="fas fa-book mr-1"></i> About</strong>
 
                 <p class="text-muted">
-                B.S. in Computer Science from the University of Tennessee at Knoxville
+                    {{ Auth::user()->about }}
                 </p>
 
                 <hr>
 
-                <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+                <strong><i class="fas fa-envelope"></i> Email</strong>
 
-                <p class="text-muted">Malibu, California</p>
-
-                <hr>
-
-                <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
-
-                <p class="text-muted">
-                <span class="tag tag-danger">UI Design</span>
-                <span class="tag tag-success">Coding</span>
-                <span class="tag tag-info">Javascript</span>
-                <span class="tag tag-warning">PHP</span>
-                <span class="tag tag-primary">Node.js</span>
+                <p class="text-muted">                    
+                    {{ Auth::user()->email }}
                 </p>
 
                 <hr>
 
-                <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+                <strong><i class="fas fa-phone"></i> Phone</strong>
+
+                <p class="text-muted">
+                    {{ Auth::user()->phone }}
+                </p>
+
+                {{-- <hr> --}}
+
+                {{-- <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
 
                 <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p> --}}
             </div>
@@ -83,20 +75,41 @@
             <div class="card">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
-                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Setting</a></li>
                 <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Password</a></li>
                 </ul>
             </div><!-- /.card-header -->
             <div class="card-body">
                 <div class="tab-content">
                 <div class="active tab-pane" id="activity">
+                    {{-- <form method="POST" action="{{ route('admin.profile.image') }}" class="form-horizontal">
+                        @csrf
+                        @method('PUT')
+                        <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="image">Image</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="file" id="image" class="form-control" placeholder="Enter your email address" name="image" value="{{ Auth::user()->phone}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="offset-sm-2 col-sm-10">
+                                <button type="submit" class="btn btn-warning float-right">Update</button>
+                            </div>
+                        </div>
+                    </form> --}}
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="timeline">
-                    <form method="POST" action="{{ route('password.update') }}" class="form-horizontal">
+                    <form method="POST" action="{{ route('admin.password.update') }}" class="form-horizontal">
                         @csrf
-                        {{-- @method('PUT') --}}
+                        @method('PUT')
                     <div class="form-group row">
                         <label for="old_password" class="col-sm-2 col-form-label">Old Password</label>
                         <div class="col-sm-10">
@@ -120,7 +133,7 @@
 
                     <div class="form-group row">
                         <div class="offset-sm-2 col-sm-10">
-                        <button type="submit" class="btn btn-warning">Update</button>
+                        <button type="submit" class="btn btn-warning float-right">Update</button>
                         </div>
                     </div>
                     </form>
@@ -130,7 +143,7 @@
                 <div class="tab-pane" id="settings">
                     <form method="POST" action="{{ route('admin.profile.update') }}" class="form-horizontal" enctype="multipart/form-data">
                         @csrf
-                        {{-- @method('PUT') --}}
+                        @method('PUT')
                         <div class="row clearfix">
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                 <label for="name">Name</label>
@@ -150,19 +163,19 @@
                             <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" id="username" class="form-control" placeholder="Enter your email address" name="username" value="{{ Auth::user()->username }}">
+                                        <input type="text" id="username" class="form-control" placeholder="Enter your username" name="username" value="{{ Auth::user()->username }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row clearfix">
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                <label for="email_address_2">Email Address</label>
+                                <label for="email_address">Email Address</label>
                             </div>
                             <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" id="email_address_2" class="form-control" placeholder="Enter your email address" name="email" value="{{ Auth::user()->email }}">
+                                        <input type="text" id="email_address" class="form-control" placeholder="Enter your email address" name="email" value="{{ Auth::user()->email }}">
                                     </div>
                                 </div>
                             </div>
@@ -181,19 +194,7 @@
                         </div>
                         <div class="row clearfix">
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                <label for="email_address_2">Profile Image</label>
-                            </div>
-                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="file" name="image">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row clearfix">
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                <label for="email_address_2">About</label>
+                                <label for="about">About</label>
                             </div>
                             <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
@@ -204,8 +205,20 @@
                             </div>
                         </div>
                         <div class="row clearfix">
-                            <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
-                                <button type="submit" class="btn btn-warning m-t-15 waves-effect">update</button>
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="image">Image</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="file" id="image" placeholder="Enter your email address" name="image" value="{{ Auth::user()->phone}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="offset-sm-2 col-sm-10">
+                                <button type="submit" class="btn btn-warning float-right">Update</button>
                             </div>
                         </div>
                     </form>

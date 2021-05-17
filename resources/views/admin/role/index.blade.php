@@ -30,22 +30,22 @@
                         <div class="table-responsive">
                             <table class="table table-hover text-center">
                                 <thead class="text-uppercase">
-                        @role('super admin')
+                        @can ('Role.create')
                         <div style="padding-bottom: 20px">
                             <a class="btn btn-primary waves-effect" href="{{ route('admin.role.create') }}" >
                                 <i class="fa fa-plus-square"></i>
                                 <span>Add New Role</span>
                             </a>
                         </div>
-                            @endrole
+                        @endcan
                                     <tr>
                                         <th width="5%">NO</th>
-                                        <th width="9%">ROLES</th>
+                                        <th width="10%">ROLES</th>
                                         <th width="50%">PERMISSION</th>
-                                        <th width="6%">DATE CREATED</th>
-                                        @role('super admin')
-                                        <th width="20%">ACTION</th>
-                                        @endrole
+                                        <th width="15%">DATE CREATED</th>
+                                        @can ('Role')
+                                        <th width="10%">ACTION</th>
+                                        @endcan
                                     </tr>
                                 </thead>
                                 <tbody >
@@ -61,21 +61,26 @@
                                             @endforeach
                                         </td>
                                         <td>{{$role->created_at}}</td>
-                                        @role('super admin')
+                        {{-- @can ('Role') --}}
+                                        
                                         <td>
+                                        {{-- @can ('Role.edit') --}}
                                             <a href="{{ route('admin.role.edit',$role->id) }}" class="btn btn-warning waves-effect">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
-    
-                                            <button class="btn btn-danger waves-effect" type="button" onclick="deleteRole({{ $role->id }})">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                            <form id="delete-form-{{ $role->id }}" action="{{ route('admin.role.destroy',$role->id) }}" method="POST" style="display: none;">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
+                                        {{-- @endcan --}}
+                                        @can ('Role.delete')
+                                                <button class="btn btn-danger waves-effect" type="button" onclick="deleteRole({{ $role->id }})">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                                <form id="delete-form-{{ $role->id }}" action="{{ route('admin.role.destroy',$role->id) }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            @endcan
                                         </td>
-                                        @endrole
+                                        {{-- @endcan --}}
+                                        
                                     </tr>
                                 @endforeach
                             </tbody>

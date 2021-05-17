@@ -31,9 +31,9 @@ class DashboardController extends Controller
                             ->take(5)->get();
         $total_pending_posts = Post::where('is_approved',false)->count();
         $all_views = Post::sum('view_count');
-        $new_authors_today = User::where('role_id',2)
+        $new_user_today = User::role('operator')
                                 ->whereDate('created_at',Carbon::today())->count();
-        $active_authors = User::where('role_id',2)
+        $active_authors = User::role('operator')
                                 ->withCount('posts')
                                 ->withCount('comments')
                                 ->withCount('favorite_posts')
@@ -46,7 +46,7 @@ class DashboardController extends Controller
         $role = Role::all();
         $permission = Permission::all();
 
-        return view('admin.dashboard',compact('new_authors_today','active_authors','new_authors_today','user','role','permission','posts','subscribers','popular_posts','total_pending_posts','all_views','category_count','tag_count'));
+        return view('admin.dashboard',compact('new_user_today','active_authors','active_authors','user','role','permission','posts','subscribers','popular_posts','total_pending_posts','all_views','category_count','tag_count'));
     }
 }
-//'new_authors_today','active_authors'
+//

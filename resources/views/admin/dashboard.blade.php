@@ -45,7 +45,7 @@
                         <p>Total Roles</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="fa fa-users-cog"></i>
                     </div>
                     <a href="{{ route('admin.role.index') }}" class="small-box-footer">
                         More info <i class="fas fa-arrow-circle-right"></i>
@@ -60,7 +60,7 @@
                         <p>Total Permissions</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="fa fa-copy"></i>
                     </div>
                     <a href="{{ route('admin.permission.index') }}" class="small-box-footer">
                         More info <i class="fas fa-arrow-circle-right"></i>
@@ -68,14 +68,14 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="small-box bg-orange">
+                <div class="small-box bg-yellow">
                     <div class="inner">
                         <h3>{{ $subscribers->count() }}</h3>
 
                         <p>Total Subscribers</p>
                     </div>
                     <div class="icon">
-                        <i class="fa fa-youtube"></i>
+                        <i class="fab fa-youtube"></i>
                     </div>
                     <a href="{{ route('admin.subscriber.index') }}" class="small-box-footer">
                         More info <i class="fas fa-arrow-circle-right"></i>
@@ -88,44 +88,44 @@
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
                 <div class="info-box shadow">
-                    <span class="info-box-icon bg-success"><i class="fa fa-book-open"></i></span>
+                    <span class="info-box-icon bg-orange"><i class="fa fa-book-open"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Total Posts</span>
+                        <span class="info-box-text">Posts</span>
                         <span class="info-box-number">{{ $posts->count() }}</span>
                     </div>
                 </div>
                 <div class="info-box shadow">
-                    <span class="info-box-icon bg-success"><i class="fa fa-book"></i></span>
+                    <span class="info-box-icon bg-cyan"><i class="fa fa-book"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Pending Post</span>
+                        <span class="info-box-text">Pending Posts</span>
                         <span class="info-box-number">{{ $total_pending_posts }}</span>
                     </div>
                 </div>
                 <div class="info-box shadow">
-                    <span class="info-box-icon bg-success"><i class="fa fa-list"></i></span>
+                    <span class="info-box-icon bg-purple"><i class="fa fa-list"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Total Categories</span>
+                        <span class="info-box-text">Categories</span>
                         <span class="info-box-number">{{ $category_count }}</span>
                     </div>
                 </div>
                 <div class="info-box shadow">
-                    <span class="info-box-icon bg-success"><i class="fa fa-tags"></i></span>
+                    <span class="info-box-icon bg-info"><i class="fa fa-tags"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Total Tag</span>
+                        <span class="info-box-text">Tags</span>
                         <span class="info-box-number">{{ $tag_count }}</span>
                     </div>
                 </div>
                 <div class="info-box shadow">
-                    <span class="info-box-icon bg-success"><i class="far fa-eye"></i></span>
+                    <span class="info-box-icon bg-warning"><i class="far fa-eye"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Total Views</span>
+                        <span class="info-box-text">Viewers</span>
                         <span class="info-box-number">{{ $all_views }}</span>
                     </div>
                 </div>
                 <div class="info-box shadow">
                     <span class="info-box-icon bg-pink"><i class="far fa-heart"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Total Favorite</span>
+                        <span class="info-box-text">Favorites</span>
                         <span class="info-box-number">{{ $all_views }}</span>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                     <span class="info-box-icon bg-blue"><i class="fa fa-calendar-day"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Today Author</span>
-                        <span class="info-box-number"></span>
+                        <span class="info-box-number">{{ $new_user_today }}</span>
                     </div>
                 </div>
             </div>
@@ -206,21 +206,23 @@
                                     <tr>
                                     <th>Rank List</th>
                                     <th>Name</th>
+                                    <th>Username</th>
                                     <th>Posts</th>
                                     <th>Comments</th>
                                     <th>Favorite</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach($active_authors as $key=>$author)
+                                    @foreach($active_authors as $key=>$author)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $author->name }}</td>
+                                            <td>{{ $author->username }}</td>
                                             <td>{{ $author->posts_count }}</td>
                                             <td>{{ $author->comments_count }}</td>
                                             <td>{{ $author->favorite_posts_count }}</td>
                                         </tr>
-                                    @endforeach --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
